@@ -20,7 +20,7 @@ real boards), published as interactive boardviews for repair work. Each board re
 | Revision | Viewer | Downloads (always the latest build) | Status |
 |---|---|---|---|
 | 1.4 | [pi4-boardview/1.4/](https://dpetzel.github.io/pi4-boardview/1.4/) | [HTML](https://dpetzel.github.io/pi4-boardview/1.4/pi4_rev_1.4-boardview.html) · [.brd](https://dpetzel.github.io/pi4-boardview/1.4/pi4_rev_1.4.brd) | In progress |
-| 1.5 | [pi4-boardview/1.5/](https://dpetzel.github.io/pi4-boardview/1.5/) | [HTML](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5-boardview.html) · [.brd](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5.brd) | Photos aligned, no parts yet |
+| 1.5 | [pi4-boardview/1.5/](https://dpetzel.github.io/pi4-boardview/1.5/) | [HTML](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5-boardview.html) · [.brd](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5.brd) | Started: DA9090 PMIC, C13, test points |
 
 The HTML viewer is self-contained and works offline; the `.brd` is for
 [OpenBoardView](https://github.com/OpenBoardView/OpenBoardView). To find a board's revision, run `grep Revision /proc/cpuinfo` on it:
@@ -32,7 +32,8 @@ the last digit of the code is the revision (`c03114` = rev 1.4, `c03115` = rev 1
 |---|---|
 | `1.4/`, `1.5/` | One KiCad project per board revision (`pi4_rev_<rev>.kicad_pcb`, `.kicad_pro`, `.kicad_sch`). Top and bottom photos are embedded in each board as reference images (Eco1.User = top, Eco2.User = bottom) |
 | `1.4/*.kicad_sch`, `1.4/pi4_rev_1.4.kicad_sym` | Rev 1.4 schematic (root sheet plus `board_only` and `top_ics` sub-sheets) and its symbols |
-| `lib/pi4_common.pretty/`, `lib/pi4_common.kicad_sym` | Footprints and symbols shared by all revisions (`${KIPRJMOD}/../lib` in each revision's lib tables) |
+| `1.5/pi4_rev_1.5.kicad_sch` | Rev 1.5 schematic (so far the DA9090 PMIC and C13) |
+| `lib/pi4_common.pretty/`, `lib/pi4_common.kicad_sym` | Footprints and symbols shared by all revisions (`${KIPRJMOD}/../lib` in each revision's lib tables), including both PMICs: MxL7704 (rev 1.4 and earlier) and DA9090 (rev 1.5) |
 | `tools/boardview.py`, `tools/template.html` | Exporter for one board (HTML viewer + `.brd`) and the viewer it fills in |
 | `tools/build_site.py`, `tools/index.html` | Builds every revision plus the landing page that lists them |
 | `.github/workflows/boardview.yml` | CI: builds the boardviews and deploys them to Pages |
@@ -42,7 +43,9 @@ The boardview files are build output and not committed.
 ### Adding a revision
 
 Make a folder named after the revision (e.g. `1.2/`) holding one KiCad project, `pi4_rev_1.2.kicad_pcb` with the
-board photos embedded as reference images. `build_site.py` picks up every top-level folder named like a version number,
+board photos embedded as reference images. Scale and place the photos so the mounting holes land where rev 1.4's do (top-left
+hole at (103.5, 78.5) mm, 58 x 49 mm pattern): all revisions then share one coordinate frame and parts can be copied
+between them. `build_site.py` picks up every top-level folder named like a version number,
 so the new revision appears on the site and in every viewer's revision switcher on the next push. Add it to the table
 above.
 

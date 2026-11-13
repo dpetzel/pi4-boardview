@@ -12,7 +12,7 @@ Board conventions:
            (pads <-> track ends <-> vias <-> zone outlines), named after the touching track/zone's net, else NET_<n>.
            Copper on two different KiCad nets is never merged. --kicad-nets-only skips the derivation.
   Outline  Edge.Cuts, unless <board dir>/boardview/outline.json exists ([[x, y], ...] in mm). With neither, the box
-           around the parts (or, on a board with no parts yet, around the photos).
+           around the parts and the reference photos.
   Parts    references ending in ** or ? (REF**, R?) are shown as unidentified. Single-pad TP* parts with a net are
            exported as .brd nails. Fields holding a URL (Source, Source2, ...) are shown as links."""
 import argparse, base64, io, json, math, os, re
@@ -84,8 +84,8 @@ def load(pcb, derive=True):
             outline = [[[_r(o.CPoint(k).x), _r(o.CPoint(k).y)] for k in range(o.PointCount())]
                        for o in (polys.Outline(i) for i in range(polys.OutlineCount()))]
         else:   # no closed Edge.Cuts: KiCad's fallback box depends on layer visibility (.kicad_prl), so use the parts'
-            boxes = [p['bbox'] for p in parts] or \
-                    [[i['x'], i['y'], i['x'] + i['w'], i['y'] + i['h']] for i in images.values()]   # no parts yet: photos
+            boxes = [p['bbox'] for p in parts] + \
+                    [[i['x'], i['y'], i['x'] + i['w'], i['y'] + i['h']] for i in images.values()]
             if boxes:
                 x0, y0 = min(b[0] for b in boxes), min(b[1] for b in boxes)
                 x1, y1 = max(b[2] for b in boxes), max(b[3] for b in boxes)
