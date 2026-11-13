@@ -1,0 +1,138 @@
+(footprint "Jack_AV_MTCONN_5TH_Pi4"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "A/V jack, shell marked MTCONN. No datasheet: holes measured from Rev 1.4 bottom photo, 0.1 mm at best; plated drill size not measurable, solder filled. Pads 3 and 4 by visible trace to TP23 and TP22; pads A, B, G not yet mapped to schematic pins.")
+	(property "Reference" "J**"
+		(at 0 -8.97 0)
+		(layer "F.SilkS")
+		(uuid "d3f8c893-c355-473c-afe3-2c1d8f4af3d2")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Jack_AV_MTCONN_5TH_Pi4"
+		(at 0 6.93 0)
+		(layer "F.Fab")
+		(uuid "eaf7577e-9c4e-4336-99cc-f542e0361dc3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "caed90d9-d680-4fdb-b938-3d5da6f2227b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "06ab3b64-3da9-45e1-930e-e096d0b4db58")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_rect
+		(start -3.48 -7.47)
+		(end 3.62 5.43)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "877d05cb-4beb-49a0-8de0-58c2ebb9d059")
+	)
+	(fp_rect
+		(start -3.48 -7.47)
+		(end 3.62 5.43)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "ece09468-f802-44e0-9a9b-fdca49b5c961")
+	)
+	(fp_rect
+		(start -3.98 -7.97)
+		(end 4.12 5.93)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "31665dbf-6f2f-40e4-bb01-c0c126e82ed6")
+	)
+	(pad "A" thru_hole circle
+		(at -2.91 -6)
+		(size 2.0 2.0)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "2407b320-62cc-45be-a425-c95fc34c70a8")
+	)
+	(pad "B" thru_hole circle
+		(at 0.02 -6.64)
+		(size 2.0 2.0)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "ffc34077-4081-4b48-b2ee-91999064219e")
+	)
+	(pad "3" thru_hole circle
+		(at 2.95 -5.99)
+		(size 2.0 2.0)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "94ea8ce0-8468-4b33-8706-a870d04ee22f")
+	)
+	(pad "4" thru_hole circle
+		(at -3.16 2.01)
+		(size 2.0 2.0)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "315a379e-e8a6-47a9-aa59-51a57505c0bd")
+	)
+	(pad "G" thru_hole circle
+		(at 3.12 1.97)
+		(size 2.0 2.0)
+		(drill 1.0)
+		(layers "*.Cu" "*.Mask")
+		(uuid "238d4146-c647-4674-b48f-bc89193f9222")
+	)
+	(pad "" np_thru_hole circle
+		(at 0.02 -3.47)
+		(size 1.15 1.15)
+		(drill 1.15)
+		(layers "*.Cu" "*.Mask")
+		(uuid "09739ea5-1ffb-412e-8029-116057cc5d40")
+	)
+	(pad "" np_thru_hole circle
+		(at -0.02 3.47)
+		(size 1.15 1.15)
+		(drill 1.15)
+		(layers "*.Cu" "*.Mask")
+		(uuid "34c9f182-0f45-4291-afd4-12faa216a2bc")
+	)
+)

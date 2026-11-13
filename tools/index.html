@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raspberry Pi 4 boardview</title>
+<style>
+:root{--bg:#14171a;--panel:#1d2227;--fg:#e6e9ec;--mut:#8b96a0;--acc:#3fb6ff;--sel:#ff3b3b}
+@media (prefers-color-scheme:light){:root{--bg:#e9ecef;--panel:#fff;--fg:#1c2126;--mut:#5b6670;--acc:#0a6fd1;--sel:#d90429}}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:24px;margin:0 0 4px} p{margin:8px 0} a{color:var(--acc)} .m{color:var(--mut)}
+ul{list-style:none;padding:0;margin:20px 0;display:grid;gap:12px}
+li{background:var(--panel);border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px #0003;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between}
+.open{display:flex;flex-direction:column;text-decoration:none;color:var(--fg)} .open b{font-size:18px;color:var(--acc)}
+.open span,.dl{color:var(--mut);font-size:13px}
+.warn{border:2px solid var(--sel);border-radius:10px;padding:10px 14px;margin-top:24px;font-size:13px}
+.warn b{color:var(--sel)}
+</style></head><body><main>
+<h1>Raspberry Pi 4 Model B boardview</h1>
+<p class="m">A KiCad reconstruction of the Raspberry Pi 4 Model B board (part placement, part identification, nets traced
+from real boards), one per board revision. The revision is printed on the board's top silkscreen.</p>
+<ul>
+<!--REVISIONS-->
+</ul>
+<p class="m">The HTML viewer is self-contained and works offline. The <code>.brd</code> opens in
+<a href="https://github.com/OpenBoardView/OpenBoardView" target="_blank" rel="noopener">OpenBoardView</a>.
+Source and corrections: <a href="https://github.com/dpetzel/pi4-boardview" target="_blank" rel="noopener">github.com/dpetzel/pi4-boardview</a>.</p>
+<div class="warn"><p><b>⚠ Unofficial, incomplete and possibly wrong.</b> Not made, endorsed or checked by Raspberry Pi Ltd,
+and not based on official schematics or layout files. "Raspberry Pi" is a trademark of Raspberry Pi Ltd; this project
+is not affiliated with it. Reverse engineered by an untrained hobbyist from photos and multimeter probing. Many parts
+are unidentified and most nets are untraced; positions, values, part numbers and connections may be wrong, and your
+board may differ. Board-level repair can destroy hardware and can be dangerous: check everything against your own
+board, your own measurements and the manufacturers' datasheets. Provided "as is" with no warranty of any kind.</p></div>
+</main></body></html>

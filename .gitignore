@@ -1,0 +1,24 @@
+# KiCad lock files and local state
+~*.lck
+*.kicad_prl
+fp-info-cache
+*-bak
+*.bak
+
+# KiCad / editor backups
+*-backups/
+_restore_backup_*/
+.history/
+
+# Generated boardview (built by CI to GitHub Pages; locally: tools/build_site.py or tools/boardview.py)
+_site/
+*/boardview/*.html
+*/boardview/*.brd
+__pycache__/
+
+# Not part of the project: the early prototype drawn over stock product photos, and the loose photos in the revision
+# folders (camera originals and crops; the photos each board uses are embedded in its .kicad_pcb)
+/rpi4/
+/raspberry-pi-4b-*
+/[0-9]*/*.jpg
+/[0-9]*/*.png

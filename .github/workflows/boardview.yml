@@ -1,0 +1,53 @@
+# Builds the boardview (HTML viewer + OpenBoardView .brd) for every board revision (1.4/, 1.5/, ...) plus a landing page.
+#   pull request  -> files attached to the run as the "boardview" artifact, for review
+#   push to main  -> deployed to GitHub Pages: <site>/ lists the revisions, <site>/<rev>/ opens that revision's viewer
+name: boardview
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: boardview-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:10.0
+      options: --user root
+    steps:
+      - uses: actions/checkout@v7
+      - name: Export boardviews
+        run: python3 tools/build_site.py -o _site
+      - uses: actions/upload-artifact@v7
+        with:
+          name: boardview
+          path: |
+            _site/index.html
+            _site/*/*-boardview.html
+            _site/*/*.brd
+      - if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
