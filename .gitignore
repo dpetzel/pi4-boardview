@@ -16,9 +16,6 @@ _site/
 */boardview/*.brd
 __pycache__/
 
-# Not part of the project: the early prototype drawn over stock product photos, and the loose photos in the revision
-# folders (camera originals and crops; the photos each board uses are embedded in its .kicad_pcb)
-/rpi4/
-/raspberry-pi-4b-*
+# Loose photos in the revision folders: the photos each board uses are embedded in its .kicad_pcb
 /[0-9]*/*.jpg
 /[0-9]*/*.png
