@@ -23,7 +23,8 @@ real boards), published as interactive boardviews for repair work. Each board re
 | 1.5 | [pi4-boardview/1.5/](https://dpetzel.github.io/pi4-boardview/1.5/) | [HTML](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5-boardview.html) · [.brd](https://dpetzel.github.io/pi4-boardview/1.5/pi4_rev_1.5.brd) | Photos aligned, no parts yet |
 
 The HTML viewer is self-contained and works offline; the `.brd` is for
-[OpenBoardView](https://github.com/OpenBoardView/OpenBoardView). The revision is printed on the board's top silkscreen.
+[OpenBoardView](https://github.com/OpenBoardView/OpenBoardView). To find a board's revision, run `grep Revision /proc/cpuinfo` on it:
+the last digit of the code is the revision (`c03114` = rev 1.4, `c03115` = rev 1.5).
 
 ## Repository
 
