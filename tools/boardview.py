@@ -31,7 +31,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 def load(pcb, derive=True):
     """Plain data in mm, KiCad orientation (Y down):
-      parts    [{ref, val, fp, x, y, rot, side, bbox, fields, pads: [[num, shape, x, y, w, h, angle, net, smd|tht]]}]
+      parts    [{ref, val, fp, x, y, rot, side, bbox, fields, pads: [[num, shape, x, y, w, h, angle, net, smd|tht(, poly)]]}]
+               custom pads have shape 'poly' and their copper outline [[x, y], ...] appended; x, y stay the pad anchor
       tracks   [[x1, y1, x2, y2, width, net, side]]       vias  [[x, y, dia, net]]
       zones    [{net, sides, poly}]                        outline [[[x, y], ...], ...]
       images   {'F'|'B': {png, x, y, w, h}}"""
@@ -44,8 +45,15 @@ def load(pcb, derive=True):
             smd = pad.GetAttribute() == pcbnew.PAD_ATTRIB_SMD
             lay = pcbnew.B_Cu if side == 'B' and smd else pcbnew.F_Cu
             sz, pos = pad.GetSize(lay), pad.GetPosition()
-            pads.append([pad.GetNumber(), SHAPES.get(pad.GetShape(lay), 'rect'), _r(pos.x), _r(pos.y), _r(sz.x), _r(sz.y),
-                         round(pad.GetOrientationDegrees(), 2), pad.GetNetname() or None, 'smd' if smd else 'tht'])
+            q = [pad.GetNumber(), SHAPES.get(pad.GetShape(lay), 'rect'), _r(pos.x), _r(pos.y), _r(sz.x), _r(sz.y),
+                 round(pad.GetOrientationDegrees(), 2), pad.GetNetname() or None, 'smd' if smd else 'tht']
+            if pad.GetShape(lay) == pcbnew.PAD_SHAPE_CUSTOM:   # irregular copper: keep its outline (absolute mm)
+                ps = pad.GetEffectivePolygon(lay, pcbnew.ERROR_INSIDE)
+                if ps.OutlineCount():
+                    o = ps.Outline(0)
+                    q[1] = 'poly'
+                    q.append([[_r(o.CPoint(i).x), _r(o.CPoint(i).y)] for i in range(o.PointCount())])
+            pads.append(q)
         # pad-less footprints (outline-only placeholders, e.g. a BGA whose ballout isn't mapped) are kept
         bb, pos = fp.GetBoundingBox(False), fp.GetPosition()
         parts.append({'ref': fp.GetReference(), 'val': fp.GetValue(), 'fp': str(fp.GetFPID().GetUniStringLibItemName()),
@@ -119,7 +127,17 @@ def _images(pcb, board):
     return out
 
 
+def _in_poly(x, y, poly):
+    inside = False
+    for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+            inside = not inside
+    return inside
+
+
 def _in_pad(x, y, p, tol=TOL):
+    if len(p) > 9:      # custom pad outline: inside it, or within tol of one of its corners
+        return _in_poly(x, y, p[9]) or any(math.hypot(x - a, y - b) <= tol for a, b in p[9])
     dx, dy = x - p[2], y - p[3]
     t = math.radians(p[6])
     u, v = dx*math.cos(t) - dy*math.sin(t), dx*math.sin(t) + dy*math.cos(t)

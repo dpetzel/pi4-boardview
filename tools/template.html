@@ -111,7 +111,9 @@ function drawPart(p,faint){const ACC=css('--acc'),PAD=css('--pad'),SEL=css('--se
  if($('pads').checked&&!faint)for(const q of p.pads){const[X,Y]=S(q[2],q[3]),w=q[4]*sc,h=q[5]*sc,on=selNet&&q[7]===selNet;
   ctx.save();ctx.translate(X,Y);ctx.rotate(-m*q[6]*Math.PI/180);
   ctx.strokeStyle=on?SEL:PAD;ctx.lineWidth=(on?2:1)*DPR();ctx.fillStyle=on?SEL+'aa':isSel||hit?SEL+'77':q[7]?PAD+'66':PAD+'26';
-  if(q[1]==='circle'||(q[1]==='oval'&&Math.abs(q[4]-q[5])<1e-3)){ctx.beginPath();ctx.arc(0,0,w/2,0,7);ctx.fill();ctx.stroke();}
+  if(q[1]==='poly'){const st=[ctx.fillStyle,ctx.strokeStyle,ctx.lineWidth];ctx.restore();ctx.save();   // custom pad: absolute outline
+   [ctx.fillStyle,ctx.strokeStyle,ctx.lineWidth]=st;path(q[9]);ctx.fill();ctx.stroke();}
+  else if(q[1]==='circle'||(q[1]==='oval'&&Math.abs(q[4]-q[5])<1e-3)){ctx.beginPath();ctx.arc(0,0,w/2,0,7);ctx.fill();ctx.stroke();}
   else if(q[1]==='oval'){const r=Math.min(w,h)/2;ctx.beginPath();ctx.roundRect(-w/2,-h/2,w,h,r);ctx.fill();ctx.stroke();}
   else{ctx.fillRect(-w/2,-h/2,w,h);ctx.strokeRect(-w/2,-h/2,w,h);}ctx.restore();}
  if(!faint&&(($('labs').checked&&sc/DPR()>7)||hit||isSel)){const[X,Y]=S(p.x,p.y),fs=Math.max(10,Math.min(15,sc/DPR()*0.8))*DPR();
@@ -145,7 +147,10 @@ function pick(X,Y){const[x,y]=W(X,Y);let best=null,ba=1e9;for(const p of PARTS){
 function pickVia(X,Y){if(!$('trk').checked)return null;const[x,y]=W(X,Y),tol=4*DPR()/sc;let best=null,bd=1e9;
  for(const v of VIAS){const d=Math.hypot(x-v[0],y-v[1]);if(d<=Math.max(v[2]/2,2*DPR()/sc)+tol&&d<bd){bd=d;best=v;}}return best;}
 function pickPad(X,Y){if(!$('pads').checked)return null;const[x,y]=W(X,Y);let best=null,bd=1e9;
- for(const p of PARTS){if(p.side!==side)continue;for(const q of p.pads){const d=Math.hypot(x-q[2],y-q[3]);if(d<=Math.max(q[4],q[5])/2+.05&&d<bd){bd=d;best=[p,q];}}}return best;}
+ for(const p of PARTS){if(p.side!==side)continue;for(const q of p.pads){const d=Math.hypot(x-q[2],y-q[3]);
+  if(q[1]==='poly'){if(inPoly(x,y,q[9])&&d<bd){bd=d;best=[p,q];}continue;}
+  if(d<=Math.max(q[4],q[5])/2+.05&&d<bd){bd=d;best=[p,q];}}}return best;}
+function inPoly(x,y,P){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const[a,b]=P[i],[e,f]=P[j];if((b>y)!==(f>y)&&x<a+(y-b)*(e-a)/(f-b))c=!c;}return c;}
 const HINT='Click a part for details, or a pad or via to highlight its net.';
 const HIDDEN_FIELDS=new Set(['KiLib_Generator']);   // tooling metadata, not useful to a reader
 const head=(t,tag)=>'<div class="hd"><span class="ttl">'+t+'</span>'+(tag||'')+'<button class="x" data-close title="Close">×</button></div>';

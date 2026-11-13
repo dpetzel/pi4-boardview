@@ -1404,6 +1404,11 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(duplicate_pin_numbers_are_jumpers no)
+		(jumper_pin_groups
+			("14" "15" "16")
+			("17" "18")
+			("28" "29")
+		)
 		(property "Reference" "U"
 			(at 17.526 11.43 0)
 			(show_name no)
@@ -1424,7 +1429,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:WQFN-32-1EP_5x5mm_P0.5mm_EP3.1x3.1mm"
+		(property "Footprint" "pi4_common:FCQFN-32_5x5mm_P0.5mm_DA9090"
 			(at 17.78 9.652 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1446,7 +1451,7 @@
 				)
 			)
 		)
-		(property "Description" "PMIC (Renesas/Dialog DA9090), replaced the MxL7704 from Pi 4 rev 1.5. No public datasheet; pinout matches the DA9080 (Renesas R16DS0519EJ0340, 32-FCQFN FQ0032AA). Footprint is a generic 5x5 mm QFN-32 placeholder: the DA9080 land pattern has irregular pads and a 1.90x0.85 mm offset thermal pad, not a 3.1 mm square EP"
+		(property "Description" "PMIC (Renesas/Dialog DA9090), replaced the MxL7704 from Pi 4 rev 1.5. No public datasheet; pinout and package match the DA9080 (Renesas R16DS0519EJ0340, 32-FCQFN FQ0032AA)"
 			(at 0 0 0)
 			(show_name no)
 			(do_not_autoplace no)
